@@ -1,27 +1,27 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require("express");
+const bodyParser = require("body-parser");
 
-const Blockchain = require('./blockchain');
+const Blockchain = require("./blockchain");
 
 const app = express();
 const blockchain = new Blockchain();
 
 app.use(bodyParser.json());
 
-app.get('/api/blocks', (req, res) => {
-    res.json(blockchain.chain);
-})
+app.get("/api/blocks", (req, res) => {
+	res.json(blockchain.chain);
+});
 
-app.post('/api/mine', (req, res) => {
-    const { data } = req.body;
+app.post("/api/mine", (req, res) => {
+	const { data } = req.body;
 
-    blockchain.addBlock({ data });
+	blockchain.addBlock({ data });
 
-    res.redirect('/api/blocks')
-})
+	res.redirect("/api/blocks");
+});
 
-const PORT = 3000
+const PORT = 3000;
 
 app.listen(PORT, () => {
-    console.log(`Application has started in port: ${PORT}`)
-})
+	console.log(`Application has started in port: ${PORT}`);
+});
