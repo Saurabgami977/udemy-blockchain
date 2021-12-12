@@ -1,14 +1,21 @@
 {
   "name": "hostcoin",
   "version": "1.0.0",
-  "description": "",
+  "description": "blockchain udemy course",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "start": "node index.js",
+    "dev": "npx nodemon index.js"
   },
-  "author": "",
+  "author": "Saurab",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^23.6.0"
+    "jest": "^23.6.0",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "express": "^4.17.1"
   }
 }
