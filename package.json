@@ -1,22 +1,24 @@
 {
-  "name": "hostcoin",
-  "version": "1.0.0",
-  "description": "blockchain udemy course",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest --watchAll",
-    "start": "node index.js",
-    "dev": "npx nodemon index.js"
-  },
-  "author": "Saurab",
-  "license": "ISC",
-  "devDependencies": {
-    "jest": "^23.6.0",
-    "nodemon": "^2.0.15"
-  },
-  "dependencies": {
-    "body-parser": "^1.19.1",
-    "express": "^4.17.1",
-    "hex-to-binary": "^1.0.1"
-  }
+	"name": "hostcoin",
+	"version": "1.0.0",
+	"description": "blockchain udemy course",
+	"main": "index.js",
+	"scripts": {
+		"test": "jest --watchAll",
+		"start": "node index.js",
+		"dev": "npm run start-redis && npx nodemon index.js",
+		"start-redis": "redis-server --daemonize yes"
+	},
+	"author": "Saurab",
+	"license": "ISC",
+	"devDependencies": {
+		"jest": "^23.6.0",
+		"nodemon": "^2.0.15"
+	},
+	"dependencies": {
+		"body-parser": "^1.19.1",
+		"express": "^4.17.1",
+		"hex-to-binary": "^1.0.1",
+		"redis": "^2.8.0"
+	}
 }
