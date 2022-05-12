@@ -28,7 +28,7 @@ class PubSub {
 			this.blockchain.replaceChain(parsedMessage);
 		}
 	};
-
+	
 	subscribeToChannels() {
 		Object.values(CHANNEL).forEach((channel) => {
 			this.subscriber.subscribe(channel);
