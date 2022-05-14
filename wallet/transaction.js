@@ -3,7 +3,7 @@ const uuid = require("uuid/v1");
 class Transaction {
 	constructor({ senderWallet, recipient, amount }) {
 		this.id = uuid();
-		this.outputMap = {};
+		this.outputMap = this.createOutputMap({ senderWallet, recipient, amount });
 	}
 
 	createOutputMap({ senderWallet, recipient, amount }) {
