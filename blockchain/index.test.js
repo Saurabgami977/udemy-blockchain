@@ -1,4 +1,4 @@
-const cryptoHash = require("../utils/crypto-hash");
+const { cryptoHash } = require("../utils");
 const Blockchain = require("./index");
 const Block = require("./block");
 
