@@ -1,9 +1,14 @@
 const crypto = require("crypto");
 
-const cryptoHash = (...props) => {
+const cryptoHash = (...inputs) => {
 	const hash = crypto.createHash("sha256");
 
-	hash.update(props.sort().join(" "));
+	hash.update(
+		inputs
+			.map((input) => JSON.stringify(input))
+			.sort()
+			.join(" "),
+	);
 
 	return hash.digest("hex");
 };
