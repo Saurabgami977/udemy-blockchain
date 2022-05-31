@@ -4,9 +4,13 @@ const request = require("request");
 
 const Blockchain = require("./blockchain");
 const PubSub = require("./app/pubsub");
+const TransactionPool = require("./wallet/transacion-pool");
+const Wallet = require("./wallet");
 
 const app = express();
 const blockchain = new Blockchain();
+const transactionPool = new TransactionPool();
+const wallet = new Wallet();
 const pubsub = new PubSub({ blockchain });
 
 const DEFAULT_PORT = 3000;
@@ -29,6 +33,10 @@ app.post("/api/mine", (req, res) => {
 
 	res.redirect("/api/blocks");
 });
+
+app.post('/api/transact', (req, res) => {
+	
+})
 
 const syncChains = () => {
 	request(
