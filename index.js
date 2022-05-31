@@ -4,8 +4,9 @@ const request = require("request");
 
 const Blockchain = require("./blockchain");
 const PubSub = require("./app/pubsub");
-const TransactionPool = require("./wallet/transacion-pool");
+const TransactionPool = require("./wallet/transaction-pool");
 const Wallet = require("./wallet");
+const { response } = require("express");
 
 const app = express();
 const blockchain = new Blockchain();
@@ -62,7 +63,7 @@ app.get("/api/transaction-pool-map", (req, res) => {
 	res.json(transactionPool.transactionMap);
 });
 
-const syncChains = () => {
+const syncWithRootState = () => {
 	request(
 		{ url: `${ROOT_NODE_ADDRESS}/api/blocks` },
 		(error, response, body) => {
@@ -71,6 +72,21 @@ const syncChains = () => {
 
 				console.log("replace chain on a sync with", rootChain);
 				blockchain.replaceChain(rootChain);
+			}
+		},
+	);
+
+	request(
+		{ url: `${ROOT_NODE_ADDRESS}/api/transaction-pool-map` },
+		(error, response, body) => {
+			if (!error && response.statusCode === 200) {
+				const rootTransactionPoolMap = JSON.parse(body);
+
+				console.log(
+					"replace transaction pool map on a sync with",
+					rootTransactionPoolMap,
+				);
+				transactionPool.setMap(rootTransactionPoolMap);
 			}
 		},
 	);
@@ -88,6 +104,6 @@ app.listen(PORT, () => {
 	console.log(`Application has started in port: ${PORT}`);
 
 	if (PORT !== DEFAULT_PORT) {
-		syncChains();
+		syncWithRootState();
 	}
 });
