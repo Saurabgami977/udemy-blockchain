@@ -37,7 +37,7 @@ app.post("/api/mine", (req, res) => {
 app.post("/api/transact", (req, res) => {
 	const { amount, recipient } = req.body;
 
-	let transaction = transactionPool.existingtransaction({
+	let transaction = transactionPool.existingTransaction({
 		inputAddress: wallet.publicKey,
 	});
 
@@ -53,9 +53,11 @@ app.post("/api/transact", (req, res) => {
 
 	transactionPool.setTransaction(transaction);
 
-	console.log("transactioPool", transactionPool);
-
 	res.json({ type: "success", transaction });
+});
+
+app.get("/api/transaction-pool-map", (req, res) => {
+	res.json(transactionPool.transactionMap);
 });
 
 const syncChains = () => {
