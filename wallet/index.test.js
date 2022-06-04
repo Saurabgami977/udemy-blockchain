@@ -1,6 +1,8 @@
 const Wallet = require("./index");
 const { verifySignature } = require("../utils");
 const Transaction = require("./transaction");
+const Blockchain = require("../blockchain");
+const { STARTING_BALANCE } = require("../config");
 
 describe("wallet", () => {
 	let wallet;
@@ -70,6 +72,56 @@ describe("wallet", () => {
 
 			it("outputs the amount the recipient", () => {
 				expect(transaction.outputMap[recipient]).toEqual(amount);
+			});
+		});
+	});
+
+	describe("calculateBalance()", () => {
+		let blockchain;
+
+		beforeEach(() => {
+			blockchain = new Blockchain();
+		});
+
+		describe("and there are no outputs for the wallet", () => {
+			it("returns the `STARTING_WALLET`", () => {
+				expect(
+					Wallet.calculateBalance({
+						chain: blockchain.chain,
+						address: wallet.publicKey,
+					}),
+				).toEqual(STARTING_BALANCE);
+			});
+		});
+
+		describe("and there are outputs for the wallet", () => {
+			let transactionOne, transactionTwo;
+
+			beforeEach(() => {
+				transactionOne = new Wallet().createTransaction({
+					recipient: wallet.publicKey,
+					amount: 50,
+				});
+
+				transactionTwo = new Wallet().createTransaction({
+					recipient: wallet.publicKey,
+					amount: 75,
+				});
+
+				blockchain.addBlock({ data: [transactionOne, transactionTwo] });
+			});
+
+			it("adds the sum of all the outputs to the wallet balance", () => {
+				expect(
+					Wallet.calculateBalance({
+						chain: blockchain.chain,
+						address: wallet.publicKey,
+					}),
+				).toEqual(
+					STARTING_BALANCE +
+						transactionOne.outputMap[wallet.publicKey] +
+						transactionTwo.outputMap[wallet.publicKey],
+				);
 			});
 		});
 	});
